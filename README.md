@@ -3,9 +3,7 @@ AM-RentalManagement provides the functionality for the capability Management of 
 
 ## Design AM-RentalManagement
 
-[API Diagram](https://gitlab.kit.edu/kit/cm/teaching/carrentalapp/carrentalappv1/-/blob/main/pages/api_diagram_am-rental_management_v1.1.md)
-
-[API Specification](./src/api/specification/api_specification_am_rental_management.proto)
+![API Diagram](./figures/api-diagram.png)
 
 
 
