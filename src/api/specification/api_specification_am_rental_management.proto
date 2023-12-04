@@ -1,0 +1,110 @@
+//AM-RentalManagementV1.1
+syntax = "proto3";
+
+package rentalmanagement;
+
+option go_package = "./pb";
+
+import "google/protobuf/timestamp.proto";
+
+service RentalsCollectionService {
+    rpc ListAvailableCars(ListAvailableCarsRequest) returns (ListAvailableCarsResponse) {}
+}
+
+service CustomerService{
+    rpc RentCar(RentCarRequest) returns (RentCarResponse) {}
+    rpc ListRentals(ListRentalsRequest) returns (ListRentalsResponse) {}
+    rpc CancelRental(CancelRentalRequest) returns (CancelRentalResponse) {}
+}
+
+service CustomersCollectionService {
+    rpc RegisterCustomer(RegisterCustomerRequest) returns (RegisterCustomerResponse) {}
+    rpc DeregisterCustomer(DeregisterCustomerRequest) returns (DeregisterCustomerResponse) {}
+}
+
+message RentCarRequest {
+    google.protobuf.Timestamp startDate = 1;
+    google.protobuf.Timestamp endDate = 2;
+    Vin vin = 3;
+    string customerId = 4;
+}
+
+message RentCarResponse {
+    Rental rental = 1;
+    ErrorDetail error = 2;
+}
+
+message ListRentalsRequest {
+    string customerId = 1;
+}
+
+message ListRentalsResponse {
+    repeated Rental rentals = 1;
+    ErrorDetail error = 2;
+}
+
+
+message CancelRentalRequest {
+    string rentalId = 1;
+}
+
+message CancelRentalResponse {
+    bool result = 1;
+    ErrorDetail error = 2;
+}
+
+message ListAvailableCarsRequest {
+    google.protobuf.Timestamp startDate = 1;
+    google.protobuf.Timestamp endDate = 2;
+}
+
+message ListAvailableCarsResponse {
+    repeated Car cars = 1;
+    ErrorDetail error = 2;
+}
+
+message RegisterCustomerRequest {
+    string name = 1;
+}
+
+message RegisterCustomerResponse {
+    Customer customer = 1;
+    ErrorDetail error = 2;
+}
+
+message DeregisterCustomerRequest {
+    string customerId = 1;
+}
+
+message DeregisterCustomerResponse {
+     ErrorDetail error = 1;
+}
+
+message Customer {
+    string customerId = 1;
+    string name = 2;
+}
+
+message Rental {
+    string rentalId = 1;
+    google.protobuf.Timestamp startDate = 2;
+    google.protobuf.Timestamp endDate = 3;
+    Vin vin = 4;
+    string customerId = 5;
+}
+
+message Car {
+    Vin vin = 1;
+    string brand = 2;
+    string model = 3;
+    int32 pricePerDay = 4;
+}
+
+message Vin {
+    string vin = 1;
+}
+
+message ErrorDetail {
+    string message = 1;
+    string details = 2;         
+}

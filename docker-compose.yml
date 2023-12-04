@@ -1,0 +1,32 @@
+version: '3'
+services:
+  dm-car:
+    build: ../dm-car
+    ports:
+      - "80:80"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  am-rentalmanagement:
+    build: .
+    ports:
+      - "81:80"
+
+  postgres:
+    image: postgres:15.4
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+
+volumes:
+  postgres-data:
